@@ -1,0 +1,17 @@
+{
+	"ulid": "01JYXRFNEAVXTTMEX86BMAZ9BT",
+	"minTime": 1751187123757,
+	"maxTime": 1751191200000,
+	"stats": {
+		"numSamples": 117551,
+		"numSeries": 784,
+		"numChunks": 800
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01JYXRFNEAVXTTMEX86BMAZ9BT"
+		]
+	},
+	"version": 1
+}

@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  prometheus:
+    image: prom/prometheus:v3.3.0
+    container_name: prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    restart: always
+    network_mode: host
+    volumes:
+      - /opt/prometheus:/etc/prometheus
+      - /opt/prometheus/data:/prometheus
+      - /opt/prometheus/alerts.yml:/etc/prometheus/alerts.yml
+
+  grafana:
+    image: grafana/grafana:11.6.1
+    container_name: grafana
+    restart: always
+    network_mode: host
+    environment:
+      - "GF_SECURITY_ADMIN_USER=admin"
+      - "GF_SECURITY_ADMIN_PASSWORD=pass"
+    volumes:
+      - /opt/grafana:/etc/grafana
+
+  influxdb:
+    image: influxdb:2.7.11
+    container_name: grafana-db
+    restart: always
+    network_mode: host
+    environment:
+      - "INFLUXDB_DB=vostok"
+      - "INFLUXDB_ADMIN_USER=admin"
+      - "INFLUXDB_ADMIN_PASSWORD=pass"
+      - "INFLUXDB_USER=grafana"
+      - "INFLUXDB_USER_PASSWORD=pass"
+    volumes:
+      - /opt/influxdb/data:/var/lib/influxdb2

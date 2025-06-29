@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  alertmanager:
+    image: prom/alertmanager
+    container_name: alertmanager
+    restart: always
+    ports:
+      - "9093:9093"
+    networks:
+      - monitor-net
+    volumes:
+      - /opt/docker/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+
+
+  blackbox:
+    image: prom/blackbox-exporter
+    container_name: blackbox
+    restart: always
+    networks:
+      - monitor-net
+    volumes:
+      - /opt/blackbox/config.yml:/etc/blackbox_exporter/config.yml
+    ports:
+      - "9115:9115"
+
+networks:
+  monitor-net:
+    driver: bridge

@@ -1,0 +1,11 @@
+groups:
+  - name: remote-host-alerts
+    rules:
+      - alert: RemoteHostDown
+        expr: probe_success{job="ping-remote-host", instance="192.168.206.141"} == 0
+        for: 30s
+        labels:
+          severity: dev
+        annotations:
+          summary: "Удалённая машина недоступна"
+          description: "Хост {{ $labels.instance }} не отвечает на ICMP ping в течение 30 секунд."
