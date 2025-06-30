@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   alertmanager:
-    image: prom/alertmanager
+    image: prom/alertmanager:v0.28.1
     container_name: alertmanager
     restart: always
     ports:
