@@ -6,14 +6,15 @@ groups:
         for: 30s
         labels:
           severity: disaster
-          telegram_bot: bot1
+          environment: dev
         annotations:
           summary: "Удалённая машина недоступна"
+
       - alert: prod-down
         expr: probe_success{job="ping-remote-host-2", instance="192.168.206.143"} == 0
         for: 30s
         labels:
           severity: disaster
-          telegram_bot: bot2
+          environment: prod
         annotations:
           summary: "Удалённая машина недоступна"

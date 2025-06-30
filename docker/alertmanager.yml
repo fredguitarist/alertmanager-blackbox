@@ -1,19 +1,19 @@
 route:
-  receiver: 'telegram-bot1'
+  receiver: 'telegram-bot1' #слать по умолчанию
   group_by: ['alertname']
   group_wait: 10s
   group_interval: 10s
   repeat_interval: 5m
   routes:
     - match:
-        telegram_bot: 'bot1'
+        environment: 'dev'
       receiver: 'telegram-bot1'
     - match:
-        telegram_bot: 'bot2'
+        environment: 'prod'
       receiver: 'telegram-bot2'
 
 receivers:
-  - name: 'telegram-bot1'
+  - name: 'telegram-bot1' #dev
     telegram_configs:
       - bot_token: '7689095579:AAHqwo7Eb-uMNVPF8mC5YIR4l1a8AyOci7Q'
         chat_id: -1002814198121
@@ -30,7 +30,7 @@ receivers:
           {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}
           {{ end }}
 
-  - name: 'telegram-bot2'
+  - name: 'telegram-bot2' #prod
     telegram_configs:
       - bot_token: '8192803973:AAG69jUshiKB6GLupoqKho0l-nFvYs-nXxA'
         chat_id: -1002592193786
