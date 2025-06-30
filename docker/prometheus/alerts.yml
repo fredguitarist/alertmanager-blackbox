@@ -18,3 +18,12 @@ groups:
           environment: prod
         annotations:
           summary: "Удалённая машина недоступна"
+
+      - alert: stage-down
+        expr: probe_success{job="ping-stage", instance="192.168.206.145"} == 0
+        for: 30s
+        labels:
+          severity: disaster
+          environment: stage
+        annotations:
+          summary: "Удалённая машина недоступна"

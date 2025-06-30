@@ -6,9 +6,9 @@ route:
   repeat_interval: 5m
   routes:
     - match:
-        environment: 'dev'
+        environment: 'dev|stage'
       receiver: 'telegram-bot1'
-    - match:
+    - match_re:
         environment: 'prod'
       receiver: 'telegram-bot2'
 
