@@ -1,19 +1,19 @@
 route:
-  receiver: 'telegram-bot1' #слать по умолчанию
+  receiver: 'telegram-prod-reciever' #слать по умолчанию
   group_by: ['alertname']
   group_wait: 10s
   group_interval: 10s
   repeat_interval: 5m
   routes:
-    - match:
-        environment: 'dev|stage'
-      receiver: 'telegram-bot1'
     - match_re:
+        environment: 'dev|stage'
+      receiver: 'telegram-dev-stage-reciever'
+    - match:
         environment: 'prod'
-      receiver: 'telegram-bot2'
+      receiver: 'telegram-prod-reciever'
 
 receivers:
-  - name: 'telegram-bot1' #dev
+  - name: 'telegram-dev-stage-reciever' #dev
     telegram_configs:
       - bot_token: '7689095579:AAHqwo7Eb-uMNVPF8mC5YIR4l1a8AyOci7Q'
         chat_id: -1002814198121
@@ -30,7 +30,7 @@ receivers:
           {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}
           {{ end }}
 
-  - name: 'telegram-bot2' #prod
+  - name: 'telegram-prod-reciever' #prod
     telegram_configs:
       - bot_token: '8192803973:AAG69jUshiKB6GLupoqKho0l-nFvYs-nXxA'
         chat_id: -1002592193786
