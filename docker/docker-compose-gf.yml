@@ -9,9 +9,9 @@ services:
     restart: always
     network_mode: host
     volumes:
-      - /opt/prometheus:/etc/prometheus
-      - /opt/prometheus/data:/prometheus
-      - /opt/prometheus/alerts.yml:/etc/prometheus/alerts.yml
+      - /opt/docker/prometheus:/etc/prometheus
+      - /opt/docker/prometheus/data:/prometheus
+      - /opt/docker/prometheus/alerts.yml:/etc/prometheus/alerts.yml
 
   grafana:
     image: grafana/grafana:11.6.1

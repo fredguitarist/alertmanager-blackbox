@@ -22,7 +22,7 @@ services:
     networks:
       - monitor-net
     volumes:
-      - /opt/blackbox/config.yml:/etc/blackbox_exporter/config.yml
+      - /opt/docker/blackbox-config.yml:/etc/blackbox_exporter/config.yml
     ports:
       - "9115:9115"
 
