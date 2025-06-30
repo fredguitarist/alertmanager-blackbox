@@ -1,17 +1,48 @@
----
 route:
+  receiver: 'telegram-bot1'
   group_by: ['alertname']
   group_wait: 10s
   group_interval: 10s
   repeat_interval: 5m
-  receiver: 'telegram-api'
+  routes:
+    - match:
+        telegram_bot: 'bot1'
+      receiver: 'telegram-bot1'
+    - match:
+        telegram_bot: 'bot2'
+      receiver: 'telegram-bot2'
+
 receivers:
-  - name: 'telegram-api'
+  - name: 'telegram-bot1'
     telegram_configs:
-    - bot_token: '7689095579:AAHqwo7Eb-uMNVPF8mC5YIR4l1a8AyOci7Q'
-      api_url: 'https://api.telegram.org'
-      chat_id: -1002814198121
-      message: '{{ if eq .Status "firing" }}🚨 Alert: {{ .GroupLabels.alertname }} |
-      Severity: {{ .CommonLabels.severity }} |
-      {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}{{ else }}✅ Resolved: {{ .GroupLabels.alertname }} |
-      {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}{{ end }}'
+      - bot_token: '7689095579:AAHqwo7Eb-uMNVPF8mC5YIR4l1a8AyOci7Q'
+        chat_id: -1002814198121
+        message: |
+          {{ if eq .Status "firing" }}
+          🚨 Alert: {{ .CommonLabels.alertname }} |
+          🔥 Target: {{ .CommonLabels.instance }}
+          Severity: {{ .CommonLabels.severity }} |
+          {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}
+          {{ else }}
+          ✅ Resolved: {{ .GroupLabels.alertname }} |
+          🔥 Target: {{ .CommonLabels.instance }}
+          Severity: {{ .CommonLabels.severity }} |
+          {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}
+          {{ end }}
+
+  - name: 'telegram-bot2'
+    telegram_configs:
+      - bot_token: '8192803973:AAG69jUshiKB6GLupoqKho0l-nFvYs-nXxA'
+        chat_id: -1002592193786
+        message: |
+          {{ if eq .Status "firing" }}
+          🚨 Alert: {{ .CommonLabels.alertname }} |
+          🔥 Target: {{ .CommonLabels.instance }}
+          Severity: {{ .CommonLabels.severity }} |
+          {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}
+          {{ else }}
+          ✅ Resolved: {{ .GroupLabels.alertname }} |
+          🔥 Target: {{ .CommonLabels.instance }}
+          Severity: {{ .CommonLabels.severity }} |
+          {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}
+          {{ end }}

@@ -1,11 +1,19 @@
 groups:
   - name: remote-host-alerts
     rules:
-      - alert: RemoteHostDown
-        expr: probe_success{job="ping-remote-host", instance="192.168.206.141"} == 0
+      - alert: dev_down
+        expr: probe_success{job="ping-remote-host-1", instance="192.168.206.141"} == 0
         for: 30s
         labels:
           severity: disaster
+          telegram_bot: bot1
         annotations:
           summary: "Удалённая машина недоступна"
-          description: "Хост {{ $labels.instance }} не отвечает на ICMP ping в течение 30 секунд."
+      - alert: prod-down
+        expr: probe_success{job="ping-remote-host-2", instance="192.168.206.143"} == 0
+        for: 30s
+        labels:
+          severity: disaster
+          telegram_bot: bot2
+        annotations:
+          summary: "Удалённая машина недоступна"
