@@ -1,0 +1,2 @@
+docker exec -it alertmanager amtool check-config /etc/alertmanager/alertmanager.yml
+docker exec -it prometheus promtool check rules /etc/prometheus/alerts.yml

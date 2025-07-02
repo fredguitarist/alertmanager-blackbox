@@ -1,9 +1,9 @@
 route:
   receiver: 'telegram-prod-reciever' #слать по умолчанию
-  group_by: ['alertname']
-  group_wait: 10s
-  group_interval: 10s
-  repeat_interval: 5m
+  group_by: ['alertname', 'instance'] #подавление дублей
+  group_wait: 10s #Alertmanager подождёт 10 секунд, чтобы собрать похожие алерты перед отправкой первой нотификации 
+  group_interval: 10s #после отправки первой группы похожих алертов он будет ждать X перед отправкой следующей группы уведомлений по тем же алерта
+  repeat_interval: 5m #повторения отправки в случае неустранения
   routes:
     - match_re:
         environment: 'dev|stage'

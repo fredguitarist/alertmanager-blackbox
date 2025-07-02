@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+
+echo "Проверяем конфигурацию Alertmanager..."
+docker exec alertmanager amtool check-config /etc/alertmanager/alertmanager.yml
+if [ $? -eq 0 ]; then
+  echo "Alertmanager config OK"
+else
+  echo "Ошибка в конфиге Alertmanager"
+  exit 1
+fi
+
+echo "Проверяем правила Prometheus..."
+docker exec prometheus promtool check rules /etc/prometheus/alerts.yml
+if [ $? -eq 0 ]; then
+  echo "Prometheus rules OK"
+else
+  echo "Ошибка в правилах Prometheus"
+  exit 1
+fi
+
+echo "Все проверки пройдены успешно"
