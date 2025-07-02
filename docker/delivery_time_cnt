@@ -1,0 +1,16 @@
+ALERT_NAME="Test_$(date +%s)"; \
+START=$(date +%s%N); \
+curl -s -X POST -H "Content-Type: application/json" -d "[{
+  \"status\": \"firing\",
+  \"labels\": {
+    \"alertname\": \"$ALERT_NAME\",
+    \"environment\": \"prod\"
+  },
+  \"annotations\": {
+    \"summary\": \"Тест времени доставки\"
+  }
+}]" http://localhost:9093/api/v2/alerts >/dev/null && \
+while ! curl -s http://localhost:9093/api/v2/alerts | jq -e --arg n "$ALERT_NAME" '.[] | select(.labels.alertname==$n)' >/dev/null; do sleep 0.1; done; \
+END=$(date +%s%N); \
+DELAY_MS=$(( (END - START) / 1000000 )); \
+echo "Алерт '$ALERT_NAME' доставлен за $DELAY_MS мс"

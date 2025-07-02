@@ -11,7 +11,7 @@ alerting:
 rule_files:
   - /etc/prometheus/alerts.yml
 
-scrape_configs: #from here
+scrape_configs:
   - job_name: 'prometheus'
     static_configs:
       - targets: ['localhost:9090']
@@ -46,7 +46,7 @@ scrape_configs: #from here
       - target_label: __address__
         replacement: 127.0.0.1:9115
 
-  - job_name: 'ping-stage'  
+  - job_name: 'ping-stage'  # <-- Исправлено: убраны лишние отступы
     metrics_path: /probe
     params:
       module: [icmp]
